@@ -1,7 +1,7 @@
  # Summary
  
  I have used Google Collab to train a BERT-based model on the training data.
- A publicly availabel Jupyter Notebook is provided here: https://colab.research.google.com/drive/1cD93kx3nNn_bFBZlIUAoNDF_-0S6EGnt?usp=sharing
+ A publicly available Jupyter Notebook is provided here: https://colab.research.google.com/drive/1cD93kx3nNn_bFBZlIUAoNDF_-0S6EGnt?usp=sharing
  
  Note that if you want to run any of the code in the notebook yourself, a Google sign-in is required.
  Otherwise, anonymous read-only access is available by default.
