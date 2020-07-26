@@ -1,0 +1,23 @@
+version: "3.2"
+services:
+
+  app:
+    image: app:ringier-latest
+    build:
+      context: ../
+      dockerfile: ./build/app/Dockerfile
+    ports:
+      - "5001:5001"
+    environment:
+      # alternatives:
+      # "bert-english-multi-cased", "13aOeDt2CpPEwobLe98NFBz-hjpN9JNXX"
+      # "distilbert-base-cased_n_epochs_2_mincount300", "13jA73V9_BawKyWAGb_h-CRXPSMMbv7H6"
+
+      # json format:
+      # [model_name, document id in google drive]
+      MODEL_TO_LOAD: '["distilbert-base-cased_n_epochs_4_mincount300", "13q92ILaUlwNXSatVSZZ9MaH921A6snNS"]'
+    volumes:
+      - ../src/app/log:/app/log
+      - ../models/trained_models:/app/trained_models
+    command: python serve_model.py gunicorn
+    # command: tail -f /dev/null # python Ingestor.py

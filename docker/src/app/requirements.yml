@@ -1,0 +1,14 @@
+name: app
+dependencies:
+  - python=3.7
+  - pip>19
+  - PyYAML
+  - flask
+  - gunicorn=20.0.4
+
+  - pip:
+      - flask_script
+      - farm
+      - anytree
+      - gdown
+      - beautifulsoup4
