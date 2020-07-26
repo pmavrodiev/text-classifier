@@ -383,7 +383,7 @@ if __name__ == '__main__':
                                                    worker_class="sync",
                                                    timeout=3600,
                                                    logger=app.logger,
-                                                   download_model=False))
+                                                   download_model=True))
 
     parser = OptionParser()
     (options, args) = parser.parse_args()
