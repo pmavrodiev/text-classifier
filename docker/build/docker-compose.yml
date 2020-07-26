@@ -9,13 +9,9 @@ services:
     ports:
       - "5001:5001"
     environment:
-      # alternatives:
-      # "bert-english-multi-cased", "13aOeDt2CpPEwobLe98NFBz-hjpN9JNXX"
-      # "distilbert-base-cased_n_epochs_2_mincount300", "13jA73V9_BawKyWAGb_h-CRXPSMMbv7H6"
-
       # json format:
       # [model_name, document id in google drive]
-      MODEL_TO_LOAD: '["distilbert-base-cased_n_epochs_4_mincount300", "13q92ILaUlwNXSatVSZZ9MaH921A6snNS"]'
+      MODEL_TO_LOAD: '["distilbert-base-cased_n_epochs_3_mincount170", "19qbyumeWVNjv0GZa0l5pDWmf3jP_s6Nb"]'
     volumes:
       - ../src/app/log:/app/log
       - ../models/trained_models:/app/trained_models

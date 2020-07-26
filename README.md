@@ -1,15 +1,20 @@
  # Summary
  
+ I have used Google Collab to train a BERT-based model on the training data.
+ A publicly availabel Jupyter Notebook is provided here: https://colab.research.google.com/drive/1cD93kx3nNn_bFBZlIUAoNDF_-0S6EGnt?usp=sharing
  
- # Training
+ Note that if you want to run any of the code yourself, a Google sign-in is required.
+ Otherwise, anonymous read-only access is available by default.
  
- ## Google Collab
+ The notebook downloads resources on the local drive of the signed-in user, which are released after the Collab session
+ expires. Upon first-time execution Google Collab will warn you of that fact, you need to accept the warning to continue.
+ 
+ The Collab notebook has plenty of documentation about the modelling and data preprocessing logic.
+ Please refer to it for more details.
+ 
+ This README describes the necessary steps to test an already trained prediction model. 
  
  # Test trained models
- 
- ## Google Collab
- 
- ## Locally via docker-compose
  
  To test already trained models you can deploy a simple RESTful Server locally using Docker.
  
@@ -27,7 +32,6 @@
  
     docker-compose -f docker/build/docker-compose.yml up
  
- 
 This will start a Docker container configured to download an already trained model from my Google Drive.
 This configuration is specified in the `MODEL_TO_LOAD` environmental variable in `docker-compose.yml`
  
@@ -40,9 +44,13 @@ model object in my google drive. Currently the following trained models have bee
 
 | model-name                                   | google-drve-id                    | description                                                                                                                                                                                                                                                                                                                                                                          |
 |----------------------------------------------|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| distilbert-base-cased_n_epochs_4_mincount300 | 13q92ILaUlwNXSatVSZZ9MaH921A6snNS | 6-layer, 768-hidden, 12-heads, 65M parameters  This is the Distilled Bert model, which is  a compressed Bert model, trained via  knowledge distillation.   The model has been fine-tuned on the given dataset for 4 epochs. Training labels that occur fewer than 300 times have been pruned.  Source: https://github.com/huggingface/transformers/tree/master/examples/distillation |
+| distilbert-base-cased_n_epochs_3_mincount170 | 19qbyumeWVNjv0GZa0l5pDWmf3jP_s6Nb | 6-layer, 768-hidden, 12-heads, 65M parameters  This is the Distilled Bert model, which is  a compressed Bert model, trained via  knowledge distillation. The model has been fine-tuned on the given dataset for 3 epochs. Training labels that occur fewer than 170 times have been pruned.  |
+| distilbert-base-cased_n_epochs_4_mincount300 | 13q92ILaUlwNXSatVSZZ9MaH921A6snNS | Same as above, only trained for 4 epochs. Training labels that occur fewer than 300 times have been pruned.
 | distilbert-base-cased_n_epochs_2_mincount300 | 13jA73V9_BawKyWAGb_h-CRXPSMMbv7H6 | Same as above, only trained for 2 epochs.                                                                                                                                                                                                                                                                                                                                            |
 | bert-english-multi-cased                     | 13aOeDt2CpPEwobLe98NFBz-hjpN9JNXX | Original Bert cased model (12-layer, 768-hidden, 12-heads, 110M parameters)  fine-tuned for the given dataset                                                                                                                                                                                                                                                                        |
+
+
+
 
 
 The default model configured in `docker-compose.yml` is `distilbert-base-cased_n_epochs_4_mincount300`. 
