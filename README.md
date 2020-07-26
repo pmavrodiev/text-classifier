@@ -3,7 +3,7 @@
  I have used Google Collab to train a BERT-based model on the training data.
  A publicly availabel Jupyter Notebook is provided here: https://colab.research.google.com/drive/1cD93kx3nNn_bFBZlIUAoNDF_-0S6EGnt?usp=sharing
  
- Note that if you want to run any of the code yourself, a Google sign-in is required.
+ Note that if you want to run any of the code in the notebook yourself, a Google sign-in is required.
  Otherwise, anonymous read-only access is available by default.
  
  The notebook downloads resources on the local drive of the signed-in user, which are released after the Collab session
@@ -16,9 +16,52 @@
  
  # Test trained models
  
- To test already trained models you can deploy a simple RESTful Server locally using Docker.
+ To test already trained models you can use a publicly available test API or deploy a simple RESTful Server locally using Docker.
  
- ### Build 
+ ## Public API
+ 
+ The trained models are exposed via 2 APIs - `/predict` and `/predict_raw` - at `46.101.163.183:5001`
+ 
+ - **/predict**
+
+    To test the supplied `predict_payload.json` you can use `curl` to send the json file as payload to the endpoint:
+
+       curl 46.101.163.183:5001/predict --data-binary @predict_paylaod.json -H "Content-Type: text/plain"
+
+    If the test data is too large, you can optionally gzip the payload file:
+ 
+       curl 46.101.163.183:5001/predict --data-binary @predict_paylaod.json.gz -H "Content-Type: application/gzip"
+    
+    And to retrieve a gzipped response (make sure to redirect the output to a file, so that you don't mess up your terminal):
+ 
+       curl 46.101.163.183:5001/predict --data-binary @predict_paylaod.json.gz -H "Content-Type: application/gzip" -H "Accept-Encoding: gzip" > output.json.gz
+    
+    By default `/predict` returns the 4 most confident labels for a given document.
+    You can supply an optional argument to change that, e.g. `/predict/2` will return the top 2 most confident labels.
+    
+- **/predict_raw**
+
+    To facilitate easier testing of the trained models, you invoke this endpoint and supply a raw texts as payload.
+    Simply pass a file, where each line corresponds to the raw text of one document.
+
+      curl 46.101.163.183:5001/predict_raw --data-binary @predict_paylaod.txt -H "Content-Type: text/plain"
+
+    If the test data is too large, you can optionally gzip the payload file:
+ 
+      curl 46.101.163.183:5001/predict_raw --data-binary @predict_paylaod.txt.gz -H "Content-Type: application/gzip"
+    
+    And to retrieve a gzipped response (make sure to redirect the output to a file, so that you don't mess up your terminal):
+ 
+      curl 46.101.163.183:5001/predict_raw --data-binary @predict_paylaod.txt.gz -H "Content-Type: application/gzip" -H "Accept-Encoding: gzip" > output.json.gz
+    
+    By default `/predict_raw` returns the 4 most confident labels for a given document.
+    You can supply an optional argument to change that, e.g. `/predict_raw/2` will return the top 2 most confident labels.
+ 
+ The model exposed is `distilbert-base-cased_n_epochs_3_mincount170`, which is a fine-tuned DistilBERT trained for 3 epochs
+ and pruned categories. Refer to the Collab Notebook for more details about how and why categories have been pruned.
+
+ 
+ ## Build local RESTful Server 
  
  Requirements:
      
@@ -51,9 +94,7 @@ model object in my google drive. Currently the following trained models have bee
 
 
 
-
-
-The default model configured in `docker-compose.yml` is `distilbert-base-cased_n_epochs_4_mincount300`. 
+The default model configured in `docker-compose.yml` is `distilbert-base-cased_n_epochs_3_mincount170`. 
 Edit the file if you want to test the other models, as well.
 
 Once downloaded the model will be stored in the container path `/app/trained_models`, which is mapped to 
